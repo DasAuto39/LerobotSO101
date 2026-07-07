@@ -1,6 +1,12 @@
 # BB-ACT Results Report on SO101 Robot
 
-In this _imitation learning_ project, the VLA (Vision-Language-Action) model with the **BB-ACT** (Behavioral Cloning with Action Chunking and Transformers) algorithm is used on the SO101 robot to perform the task of moving a red block to a brown rectangular area.
+In this _imitation learning_ project for Robot Perception course, the VLA (Vision-Language-Action) model with the **BB-ACT** (Behavioral Cloning with Action Chunking and Transformers) algorithm is used on the SO101 robot to perform the task of moving a red block to a brown rectangular area.
+
+With consist of students: 
+1. Nur Annisa Hidayatul Masruroh (5024231025)
+2. Ahmad Faiq Fawwaz (5024231031)
+3. Akhmad Rizqullah Ridlohi (5024231037)
+4. Moh. Wildan Risqi Maulidi (5024231058)
 
 ---
 
@@ -198,8 +204,7 @@ videos/
 
 Here are the model training results:
 
-- Nur's Model: https://huggingface.co/anisamsrh/rp_policy
-- Wildan's Model: https://huggingface.co/wild3005/rp_policy
+- https://huggingface.co/wild3005/rp_policy
 
 ---
 
@@ -217,13 +222,6 @@ The robot successfully picks up the red block and moves it to the brown rectangu
 
 Here is the video documentation of the inference tests:
 
-**1. Nur's Training Result**  
-<video src="./Video/HasilNur.mp4" controls width="100%"></video>
-
-**2. Wildan's Training Result**  
-<video src="./Video/HasilWildan.mp4" controls width="100%"></video>
-
-Or the videos can be accessed via the following Google Drive link:  
 **[Video Results on Google Drive](https://drive.google.com/drive/folders/1kwrHN5rREQnvqet9mAZuFPpuiiKF5_q-?usp=sharing)**
 
 ---
