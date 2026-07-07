@@ -33,18 +33,19 @@ Tulung
 ## Observasi Hasil Inference
 
 Berikut adalah hasil observasi *inference* pada robot SO101: 
-Robot berhasil mengambil balok merah dan memindahkannya ke area persegi panjang berwarna coklat, sesuai dengan gerakan yang dilatih sebelumnya. Namun, robot perlu dibantu sedikit saat mengambil balok dikarenakan *servo gripper* tidak dapat menutup secara maksimal akibat adanya kerusakan kecil pada servo tersebut.
+Robot berhasil mengambil balok merah dan memindahkannya ke area persegi panjang berwarna coklat, sesuai dengan gerakan yang dilatih sebelumnya. Namun, terdapat gerakan patah patah saat robot bergerak yang kemungkinan besar perlu mentuning PID gerakan robotnya, dan robot perlu dibantu sedikit saat mengambil balok dikarenakan *servo gripper* tidak dapat menutup secara maksimal akibat adanya kerusakan kecil pada servo tersebut.
 
 ### Video Hasil
 
 Berikut adalah dokumentasi video hasil pengujian (*inference*):
 
 **1. Hasil Training Nur**  
-<video src="https://github.com/DasAuto39/LerobotSO101/raw/main/Video/HasilNur.mp4" controls width="100%"></video>
+<video src="./Video/HasilNur.mp4" controls width="100%"></video>
 
 **2. Hasil Training Wildan**  
-<video src="https://github.com/DasAuto39/LerobotSO101/raw/main/Video/HasilWildan.mp4" controls width="100%"></video>
+<video src="./Video/HasilWildan.mp4" controls width="100%"></video>
 
+Atau bisa dilihat pada google drive tersebut
 ---
 
 ## Langkah-Langkah Menjalankan Proyek
