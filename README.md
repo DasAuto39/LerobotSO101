@@ -1,60 +1,60 @@
-# Laporan Hasil BB-ACT pada Robot SO101
+# BB-ACT Results Report on SO101 Robot
 
-Pada proyek _imitation learning_ ini, digunakan model VLA (Vision-Language-Action) dengan algoritma **BB-ACT** (Behavioral Cloning with Action Chunking and Transformers) pada robot SO101 untuk melakukan tugas memindahkan balok merah ke tempat persegi panjang berwarna coklat.
+In this _imitation learning_ project, the VLA (Vision-Language-Action) model with the **BB-ACT** (Behavioral Cloning with Action Chunking and Transformers) algorithm is used on the SO101 robot to perform the task of moving a red block to a brown rectangular area.
 
 ---
 
-## 1. Pengertian BB-ACT
+## 1. BB-ACT Overview
 
 #### A. Behavior Cloning
 
-**Behavior cloning** atau peniruan perilaku adalah metode pembelajaran yang menentukan tindakan agen dengan cara meniru contoh dari pakar (_expert demonstrations_). Pendekatan ini dapat diselesaikan melalui _machine learning_ dengan metode terawasi, seperti klasifikasi.
+**Behavior cloning** is a learning method that determines an agent's actions by imitating expert demonstrations. This approach can be solved through supervised _machine learning_ methods, such as classification.
 
-Metode _behavior cloning_ terbukti efektif untuk tugas yang kompleks, seperti locomotion pada robot berkaki dua. Namun, metode ini membutuhkan dataset yang besar dan kurang baik jika diterapkan pada lingkungan di luar variasi contoh yang pernah dilatih.
+Behavior cloning methods have proven effective for complex tasks, such as locomotion in bipedal robots. However, this method requires a large dataset and performs poorly when applied to environments outside the variations of the trained examples.
 
-_Data set Aggregation_ (**DAgger**) berupaya mengatasi sebagian masalah tersebut dengan menambahkan demonstrasi pakar ke dalam kebijakan yang telah dipelajari selama proses pelatihan berlangsung, sehingga kebijakan hasil belajar dan kebijakan pakar saling melengkapi. Meski demikian, DAgger cukup sulit diterapkan karena membutuhkan contoh pakar yang dikumpulkan sepanjang proses pelatihan.
+_Dataset Aggregation_ (**DAgger**) attempts to address some of these issues by appending expert demonstrations to the learned policy during the training process, so the learned policy and the expert policy complement each other. Nevertheless, DAgger is quite difficult to implement as it requires expert examples to be collected throughout the training process.
 
 #### B. Action Chunking with Transformers
 
-**Action Chunking with Transformers (ACT)** adalah algoritma _behavior cloning_ yang menggunakan **Conditional Variational Autoencoder (CVAE)** untuk memodelkan berbagai kondisi, lalu dikombinasikan dengan _transformer_ untuk memprediksi urutan aksi (_action chunks_) berdasarkan masukan multimodal.
+**Action Chunking with Transformers (ACT)** is a _behavior cloning_ algorithm that uses a **Conditional Variational Autoencoder (CVAE)** to model various conditions, combined with a _transformer_ to predict sequences of actions (_action chunks_) based on multimodal inputs.
 
-Dengan merepresentasikan aksi sebagai keadaan tujuan yang harus dicapai manipulator, metode agregasi temporal dapat digunakan untuk menggabungkan prediksi aksi dari beberapa langkah waktu sebelumnya melalui rata-rata berbobot. Penggabungan beberapa prediksi ini membantu mengurangi masalah _compounding error_ dan respons yang tidak stabil terhadap keadaan di luar distribusi data pelatihan.
+By representing actions as target states that the manipulator must achieve, temporal aggregation methods can be used to combine action predictions from several previous time steps through weighted averaging. Combining these multiple predictions helps reduce compounding errors and unstable responses to states outside the training data distribution.
 
-Walaupun model masih dapat memilih aksi yang kurang tepat, aksi yang telah diprediksi pada langkah sebelumnya akan memberikan pengaruh penyeimbang pada aksi akhir. Selain itu, struktur jaringan _transformer_ mendukung berbagai masukan multimodal, seperti _text prompt_, sehingga meningkatkan ketahanan kerangka kerja ACT.
+Although the model can still select suboptimal actions, the actions predicted in previous steps will provide a balancing effect on the final action. Furthermore, the _transformer_ network structure supports various multimodal inputs, such as _text prompts_, thereby improving the robustness of the ACT framework.
 
 ---
 
 ## 2. Dataset
 
-Dataset yang digunakan untuk proses training dapat diakses melalui link dibawah ini:
+The dataset used for the training process can be accessed via the following link:
 
-**Link Dataset:**
+**Dataset Link:**
 https://huggingface.co/datasets/Kamna0321/so101_persepsi_robot
 
-Dataset ini direkam menggunakan framework **LeRobot Dataset v3.0** dan berisi demonstrasi gerakan robot untuk satu jenis tugas (single-task imitation learning). Data terdiri atas observasi kamera, state robot, serta aksi (joint command) pada setiap frame.
+This dataset was recorded using the **LeRobot Dataset v3.0** framework and contains robot movement demonstrations for a single task (single-task imitation learning). The data consists of camera observations, robot states, and actions (joint commands) for each frame.
 
-#### Informasi Dataset
+#### Dataset Information
 
-| Parameter            | Nilai              |
-| -------------------- | ------------------ |
-| Robot                | SO-101 Follower    |
-| Dataset Version      | v3.0               |
-| Total Task           | 1                  |
-| Total Episode        | 61                 |
-| Total Frame          | 36.498             |
-| FPS                  | 30                 |
-| Total Durasi Rekaman | ±20 menit          |
-| Split                | Train (61 Episode) |
+| Parameter                | Value              |
+| ------------------------ | ------------------ |
+| Robot                    | SO-101 Follower    |
+| Dataset Version          | v3.0               |
+| Total Tasks              | 1                  |
+| Total Episodes           | 61                 |
+| Total Frames             | 36,498             |
+| FPS                      | 30                 |
+| Total Recording Duration | ±20 minutes        |
+| Split                    | Train (61 Episodes)|
 
 ---
 
-#### Struktur Data
+#### Data Structure
 
-Dataset memiliki beberapa feature utama yang digunakan selama training.
+The dataset has several main features used during training.
 
 #### 1. Action
 
-Merupakan target output yang harus diprediksi oleh model VLA.
+This is the target output to be predicted by the VLA model.
 
 | Joint             |
 | ----------------- |
@@ -65,12 +65,12 @@ Merupakan target output yang harus diprediksi oleh model VLA.
 | wrist_roll.pos    |
 | gripper.pos       |
 
-- Tipe data : float32
-- Shape : (6,)
+- Data type: float32
+- Shape: (6,)
 
 #### 2. Observation State
 
-Berisi kondisi aktual seluruh joint robot pada setiap frame.
+Contains the actual condition of all robot joints at each frame.
 
 | Joint             |
 | ----------------- |
@@ -81,46 +81,46 @@ Berisi kondisi aktual seluruh joint robot pada setiap frame.
 | wrist_roll.pos    |
 | gripper.pos       |
 
-- Tipe data : float32
-- Shape : (6,)
+- Data type: float32
+- Shape: (6,)
 
 #### 3. Observation Images
 
-Dataset menggunakan dua kamera RGB.
+The dataset uses two RGB cameras.
 
-| Kamera       | Resolusi  |
-| ------------ | --------- |
-| Front Camera | 640 × 480 |
-| Wrist Camera | 640 × 480 |
+| Camera       | Resolution |
+| ------------ | ---------- |
+| Front Camera | 640 × 480  |
+| Wrist Camera | 640 × 480  |
 
-Spesifikasi video:
+Video specifications:
 
-- Codec : AV1
-- Pixel Format : yuv420p
-- FPS : 30
-- Channel : RGB (3 Channel)
-
----
-
-#### Struktur Episode
-
-Dataset terdiri dari **61 episode** dengan durasi yang hampir seragam.
-
-| Statistik          | Nilai       |
-| ------------------ | ----------- |
-| Episode Terpendek  | 19.93 detik |
-| Episode Terpanjang | 19.97 detik |
-| Rata-rata Durasi   | 19.94 detik |
-| Median             | 19.93 detik |
-| Standar Deviasi    | 0.02 detik  |
-
-Dengan FPS sebesar **30**, setiap episode memiliki sekitar **600 frame**.
+- Codec: AV1
+- Pixel Format: yuv420p
+- FPS: 30
+- Channels: RGB (3 Channels)
 
 ---
 
-#### Metadata Tambahan
+#### Episode Structure
 
-Selain data utama, setiap frame juga memiliki metadata berikut:
+The dataset consists of **61 episodes** with near-uniform duration.
+
+| Statistic          | Value         |
+| ------------------ | ------------- |
+| Shortest Episode   | 19.93 seconds |
+| Longest Episode    | 19.97 seconds |
+| Average Duration   | 19.94 seconds |
+| Median             | 19.93 seconds |
+| Standard Deviation | 0.02 seconds  |
+
+With an FPS of **30**, each episode has about **600 frames**.
+
+---
+
+#### Additional Metadata
+
+In addition to the main data, each frame also has the following metadata:
 
 - timestamp
 - frame_index
@@ -128,13 +128,13 @@ Selain data utama, setiap frame juga memiliki metadata berikut:
 - task_index
 - index
 
-Metadata tersebut digunakan untuk sinkronisasi data selama proses training dan evaluasi.
+This metadata is used for data synchronization during the training and evaluation processes.
 
 ---
 
-#### Struktur Penyimpanan Dataset
+#### Dataset Storage Structure
 
-Dataset disimpan menggunakan format **LeRobot Dataset v3**.
+The dataset is stored using the **LeRobot Dataset v3** format.
 
 ```
 data/
@@ -142,7 +142,7 @@ data/
     └── file-xxx.parquet
 ```
 
-Video disimpan secara terpisah.
+Videos are stored separately.
 
 ```
 videos/
@@ -169,7 +169,7 @@ videos/
 
 **Input**
 
-| Fitur                    | Tipe   | Bentuk        |
+| Feature                  | Type   | Shape         |
 | ------------------------ | ------ | ------------- |
 | observation.state        | STATE  | (6,)          |
 | observation.images.wrist | VISUAL | (3, 480, 640) |
@@ -177,15 +177,15 @@ videos/
 
 **Output**
 
-| Fitur  | Tipe   | bentuk |
-| ------ | ------ | ------ |
-| action | ACTION | (6,)   |
+| Feature | Type   | Shape  |
+| ------- | ------ | ------ |
+| action  | ACTION | (6,)   |
 
 ---
 
-#### Konfigurasi Training
+#### Training Configuration
 
-| Konfigurasi     | Nilai |
+| Configuration   | Value |
 | --------------- | ----- |
 | Training steps  | 20000 |
 | Batch size      | 32    |
@@ -196,43 +196,43 @@ videos/
 
 ---
 
-berikut hasil training model
+Here are the model training results:
 
-- Model Nur : https://huggingface.co/anisamsrh/rp_policy
-- Model Wildan : https://huggingface.co/wild3005/rp_policy
+- Nur's Model: https://huggingface.co/anisamsrh/rp_policy
+- Wildan's Model: https://huggingface.co/wild3005/rp_policy
 
 ---
 
 <!--
-## 4. Evaluasi Model
+## 4. Model Evaluation
 
-Isi dengan hasil evaluasi/metrik dari training di sini -->
+Fill with training evaluation results/metrics here -->
 
-## 4. Observasi Hasil Inference
+## 4. Inference Observation Results
 
-Berikut adalah hasil observasi _inference_ pada robot SO101:
-Robot berhasil mengambil balok merah dan memindahkannya ke area persegi panjang berwarna coklat, sesuai dengan gerakan yang dilatih sebelumnya. Namun, terdapat gerakan patah patah saat robot bergerak yang kemungkinan besar perlu mentuning PID gerakan robotnya, dan robot perlu dibantu sedikit saat mengambil balok dikarenakan _servo gripper_ tidak dapat menutup secara maksimal akibat adanya kerusakan kecil pada servo tersebut.
+Here are the inference observation results on the SO101 robot:
+The robot successfully picks up the red block and moves it to the brown rectangular area, according to the previously trained movements. However, the robot needs a little help when picking up the block because the _servo gripper_ cannot close completely due to minor damage to the servo.
 
-### Video Hasil
+### Video Results
 
-Berikut adalah dokumentasi video hasil pengujian (_inference_):
+Here is the video documentation of the inference tests:
 
-**1. Hasil Training Nur**  
+**1. Nur's Training Result**  
 <video src="./Video/HasilNur.mp4" controls width="100%"></video>
 
-**2. Hasil Training Wildan**  
+**2. Wildan's Training Result**  
 <video src="./Video/HasilWildan.mp4" controls width="100%"></video>
 
-Atau video dapat diakses melalui tautan Google Drive berikut:  
- **[Video Hasil di Google Drive](https://drive.google.com/drive/folders/1kwrHN5rREQnvqet9mAZuFPpuiiKF5_q-?usp=sharing)**
+Or the videos can be accessed via the following Google Drive link:  
+**[Video Results on Google Drive](https://drive.google.com/drive/folders/1kwrHN5rREQnvqet9mAZuFPpuiiKF5_q-?usp=sharing)**
 
 ---
 
-## Langkah-Langkah Menjalankan Proyek
+## Steps to Run the Project
 
-Berikut adalah panduan instalasi dan penggunaan untuk menjalankan _policy_ pada robot.
+Here is the installation and usage guide to run the _policy_ on the robot.
 
-### 1. Instalasi Prasyarat
+### 1. Prerequisites Installation
 
 **Install Miniforge**
 
@@ -241,7 +241,7 @@ wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforg
 bash Miniforge3-$(uname)-$(uname -m).sh
 ```
 
-**Setup Environment Conda**
+**Setup Conda Environment**
 
 ```bash
 conda create -y -n lerobot python=3.12
@@ -254,48 +254,48 @@ conda activate lerobot
 conda install ffmpeg -c conda-forge
 ```
 
-### 2. Instalasi LeRobot
+### 2. LeRobot Installation
 
-**Clone Repository dan Install**
+**Clone Repository and Install**
 
 ```bash
 git clone https://github.com/huggingface/lerobot.git
 cd lerobot
 pip install lerobot
-pip install 'lerobot[feetech]' # Diperlukan untuk motor servo SO-101
+pip install 'lerobot[feetech]' # Required for SO-101 servo motors
 ```
 
-Setelah menginstal LeRobot pada sistem operasi, langkah selanjutnya adalah menjalankan perintah pada terminal untuk menggunakan robot SO101. Untuk penjelasan yang lebih lengkap, silakan merujuk pada file `AGENT_GUIDE.md` yang terdapat pada repositori LeRobot yang telah diunduh.
+After installing LeRobot on the operating system, the next step is to run commands in the terminal to use the SO101 robot. For a more complete explanation, please refer to the `AGENT_GUIDE.md` file located in the downloaded LeRobot repository.
 
-### 3. Persiapan Menjalankan Robot
+### 3. Preparation Before Running the Robot
 
-Sebelum menjalankan perintah ke LeRobot, diperlukan untuk _login_ akun Hugging Face pada terminal, dan menginstal _Git LFS_ (Large File Storage) untuk menarik model atau dataset.
+Before sending commands to LeRobot, it is necessary to _login_ to a Hugging Face account in the terminal and install _Git LFS_ (Large File Storage) to pull models or datasets.
 
 ```bash
 huggingface-cli login
-# Atau dengan perintah: hf auth login
+# Or using the command: hf auth login
 
 git lfs install && git lfs pull
 ```
 
-### 4. Eksekusi pada Robot
+### 4. Execution on Robot
 
-**Menemukan Port Robot**
+**Finding the Robot Port**
 
 ```bash
 lerobot-find-port
 ```
 
-> **Catatan:** macOS biasanya menggunakan `/dev/tty.usbmodem...`; Linux menggunakan `/dev/ttyACM0` (mungkin memerlukan akses dengan `sudo chmod 666 /dev/ttyACM0`).
+> **Note:** macOS typically uses `/dev/tty.usbmodem...`; Linux uses `/dev/ttyACM0` (may require access using `sudo chmod 666 /dev/ttyACM0`).
 
-**Kalibrasi Robot**
+**Robot Calibration**
 
 ```bash
 lerobot-calibrate --robot.type=so101_follower --robot.port=/dev/ttyACM0 --robot.id=my_followerclear
 lerobot-calibrate --teleop.type=so101_leader  --teleop.port=/dev/ttyACM1   --teleop.id=my_leader
 ```
 
-**Menjalankan Policy yang Telah Dilatih (Inference)**
+**Running the Trained Policy (Inference)**
 
 ```bash
 lerobot-rollout \
@@ -312,9 +312,9 @@ lerobot-rollout \
 
 ---
 
-## Perintah Tambahan (Merekam Dataset Sendiri)
+## Additional Commands (Recording Custom Datasets)
 
-Jika Anda ingin merekam dataset sendiri, jalankan perintah berikut:
+If you want to record your own dataset, run the following command:
 
 ```bash
 lerobot-record \
