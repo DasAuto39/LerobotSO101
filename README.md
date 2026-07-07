@@ -40,10 +40,10 @@ Robot berhasil mengambil balok merah dan memindahkannya ke area persegi panjang 
 Berikut adalah dokumentasi video hasil pengujian (*inference*):
 
 **1. Hasil Training Nur**  
-[Klik untuk melihat Video Hasil Nur](./Video/HasilNur.mp4)
+<video src="./Video/HasilNur.mp4" controls width="100%"></video>
 
 **2. Hasil Training Wildan**  
-[Klik untuk melihat Video Hasil Wildan](./Video/HasilWildan.mp4)
+<video src="./Video/HasilWildan.mp4" controls width="100%"></video>
 
 ---
 
@@ -78,7 +78,7 @@ git clone https://github.com/huggingface/lerobot.git
 cd lerobot
 pip install lerobot
 pip install 'lerobot[feetech]' # Diperlukan untuk motor servo SO-101
-
+```
 
 Setelah menginstal LeRobot pada sistem operasi, langkah selanjutnya adalah menjalankan perintah pada terminal untuk menggunakan robot SO101. Untuk penjelasan yang lebih lengkap, silakan merujuk pada file `AGENT_GUIDE.md` yang terdapat pada repositori LeRobot yang telah diunduh.
 
