@@ -2,7 +2,7 @@
 
 In this _imitation learning_ project for Robot Perception course, the VLA (Vision-Language-Action) model with the **BB-ACT** (Behavioral Cloning with Action Chunking and Transformers) algorithm is used on the SO101 robot to perform the task of moving a red block to a brown rectangular area.
 
-With consist of students: 
+With consist of group members: 
 1. Nur Annisa Hidayatul Masruroh (5024231025)
 2. Ahmad Faiq Fawwaz (5024231031)
 3. Akhmad Rizqullah Ridlohi (5024231037)
