@@ -6,7 +6,7 @@ Pada proyek *imitation learning* ini, digunakan model VLA (Vision-Language-Actio
 
 ## Bagian BB-ACT
 
-> **[TUGAS TEMAN]** Silakan lengkapi bagian-bagian di bawah ini.
+Tulung
 
 ### 1. Pengertian
 <!-- Isi dengan penjelasan mengenai algoritma BB-ACT di sini -->
@@ -77,7 +77,8 @@ conda install ffmpeg -c conda-forge
 git clone https://github.com/huggingface/lerobot.git
 cd lerobot
 pip install lerobot
-```
+pip install 'lerobot[feetech]' # Diperlukan untuk motor servo SO-101
+
 
 Setelah menginstal LeRobot pada sistem operasi, langkah selanjutnya adalah menjalankan perintah pada terminal untuk menggunakan robot SO101. Untuk penjelasan yang lebih lengkap, silakan merujuk pada file `AGENT_GUIDE.md` yang terdapat pada repositori LeRobot yang telah diunduh.
 
