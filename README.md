@@ -196,11 +196,19 @@ videos/
 
 ---
 
+berikut hasil training model
+
+- Model Nur : https://huggingface.co/anisamsrh/rp_policy
+- Model Wildan : https://huggingface.co/wild3005/rp_policy
+
+---
+
+<!--
 ## 4. Evaluasi Model
 
-<!-- Isi dengan hasil evaluasi/metrik dari training di sini -->
+Isi dengan hasil evaluasi/metrik dari training di sini -->
 
-## 5. Observasi Hasil Inference
+## 4. Observasi Hasil Inference
 
 Berikut adalah hasil observasi _inference_ pada robot SO101:
 Robot berhasil mengambil balok merah dan memindahkannya ke area persegi panjang berwarna coklat, sesuai dengan gerakan yang dilatih sebelumnya. Namun, terdapat gerakan patah patah saat robot bergerak yang kemungkinan besar perlu mentuning PID gerakan robotnya, dan robot perlu dibantu sedikit saat mengambil balok dikarenakan _servo gripper_ tidak dapat menutup secara maksimal akibat adanya kerusakan kecil pada servo tersebut.
