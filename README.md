@@ -45,7 +45,8 @@ Berikut adalah dokumentasi video hasil pengujian (*inference*):
 **2. Hasil Training Wildan**  
 <video src="./Video/HasilWildan.mp4" controls width="100%"></video>
 
-Atau bisa dilihat pada google drive tersebut
+Atau video dapat diakses melalui tautan Google Drive berikut:  
+ **[Video Hasil di Google Drive](https://drive.google.com/drive/folders/1kwrHN5rREQnvqet9mAZuFPpuiiKF5_q-?usp=sharing)**
 ---
 
 ## Langkah-Langkah Menjalankan Proyek
