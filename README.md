@@ -40,10 +40,10 @@ Robot berhasil mengambil balok merah dan memindahkannya ke area persegi panjang 
 Berikut adalah dokumentasi video hasil pengujian (*inference*):
 
 **1. Hasil Training Nur**  
-<video src="./Video/HasilNur.mp4" controls width="100%"></video>
+<video src="https://github.com/DasAuto39/LerobotSO101/raw/main/Video/HasilNur.mp4" controls width="100%"></video>
 
 **2. Hasil Training Wildan**  
-<video src="./Video/HasilWildan.mp4" controls width="100%"></video>
+<video src="https://github.com/DasAuto39/LerobotSO101/raw/main/Video/HasilWildan.mp4" controls width="100%"></video>
 
 ---
 
