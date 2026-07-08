@@ -252,10 +252,6 @@ The robot successfully picks up the red block and moves it to the brown rectangu
 
 Here is the video documentation of the inference tests:
 
-[![Demo Video](Video/thumbnail.png)](Video/InferenceVideo_BBACT.mp4)
-
-> **Note:** Click the image to play the video.
-
 **[Video Results on Google Drive](https://drive.google.com/drive/folders/1kwrHN5rREQnvqet9mAZuFPpuiiKF5_q-?usp=sharing)**
 
 ---
