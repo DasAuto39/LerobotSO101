@@ -2,7 +2,8 @@
 
 In this _imitation learning_ project for Robot Perception course, the VLA (Vision-Language-Action) model with the **BB-ACT** (Behavioral Cloning with Action Chunking and Transformers) algorithm is used on the SO101 robot to perform the task of moving a red block to a brown rectangular area.
 
-With consist of group members: 
+With consist of group members:
+
 1. Nur Annisa Hidayatul Masruroh (5024231025)
 2. Ahmad Faiq Fawwaz (5024231031)
 3. Akhmad Rizqullah Ridlohi (5024231037)
@@ -32,35 +33,50 @@ Although the model can still select suboptimal actions, the actions predicted in
 
 ## 2. Dataset
 
-The dataset used for the training process can be accessed via the following link:
+The dataset used for the training process can be accessed through the following link:
 
 **Dataset Link:**
 https://huggingface.co/datasets/Kamna0321/so101_persepsi_robot_20260708_114140
 
-This dataset was recorded using the **LeRobot Dataset v3.0** framework and contains robot movement demonstrations for a single task (single-task imitation learning). The data consists of camera observations, robot states, and actions (joint commands) for each frame.
-
-#### Dataset Information
-
-| Parameter                | Value              |
-| ------------------------ | ------------------ |
-| Robot                    | SO-101 Follower    |
-| Dataset Version          | v3.0               |
-| Total Tasks              | 1                  |
-| Total Episodes           | 60                |
-| Total Frames             | 35,661             |
-| FPS                      | 30                 |
-| Total Recording Duration | ±20 minutes        |
-| Split                    | Train (60 Episodes)|
+This dataset was collected using the **LeRobot Dataset v3.0** framework and contains robot manipulation demonstrations for a **single-task imitation learning** problem. Each demonstration records synchronized visual observations, robot joint states, and corresponding robot actions. The dataset is intended for training **Vision-Language-Action (VLA)** models using behavior cloning.
 
 ---
 
-#### Data Structure
+### Dataset Information
 
-We taken the dataset with separate area and for each episode putted in differend position try to fill each the area for each episode with combination of how the cube positioned(aligned or sideway) and the dataset has several main features used during training.
+| Parameter                | Value               |
+| ------------------------ | ------------------- |
+| Robot                    | SO-101 Follower     |
+| Dataset Version          | v3.0                |
+| Total Tasks              | 1                   |
+| Total Episodes           | 60                  |
+| Total Frames             | 35,661              |
+| FPS                      | 30                  |
+| Total Recording Duration | 19 minutes          |
+| Split                    | Train (60 Episodes) |
+
+---
+
+### Data Collection
+
+The demonstrations were collected by teleoperating the SO-101 robot arm to perform a single manipulation task. To improve the generalization capability of the VLA model, the workspace was divided into multiple regions, and the cube was placed at different locations for each episode.
+
+In addition, the cube orientation was intentionally varied between demonstrations, including:
+
+- **Aligned orientation**
+- **Sideways orientation**
+
+This variation allows the dataset to capture different visual appearances and robot trajectories while performing the same manipulation objective.
+
+---
+
+### Data Structure
+
+The dataset consists of synchronized multimodal observations recorded at **30 FPS**.
 
 #### 1. Action
 
-This is the target output to be predicted by the VLA model.
+Represents the target robot action predicted by the VLA model.
 
 | Joint             |
 | ----------------- |
@@ -71,12 +87,14 @@ This is the target output to be predicted by the VLA model.
 | wrist_roll.pos    |
 | gripper.pos       |
 
-- Data type: float32
-- Shape: (6,)
+- **Data Type:** `float32`
+- **Shape:** `(6,)`
+
+---
 
 #### 2. Observation State
 
-Contains the actual condition of all robot joints at each frame.
+Represents the actual robot joint configuration at each frame.
 
 | Joint             |
 | ----------------- |
@@ -87,12 +105,14 @@ Contains the actual condition of all robot joints at each frame.
 | wrist_roll.pos    |
 | gripper.pos       |
 
-- Data type: float32
-- Shape: (6,)
+- **Data Type:** `float32`
+- **Shape:** `(6,)`
+
+---
 
 #### 3. Observation Images
 
-The dataset uses two RGB cameras.
+The dataset includes synchronized RGB images captured from two viewpoints.
 
 | Camera       | Resolution |
 | ------------ | ---------- |
@@ -101,62 +121,73 @@ The dataset uses two RGB cameras.
 
 Video specifications:
 
-- Codec: AV1
-- Pixel Format: yuv420p
-- FPS: 30
-- Channels: RGB (3 Channels)
+- Codec: **AV1**
+- Pixel Format: **yuv420p**
+- FPS: **30**
+- Channels: **RGB (3 Channels)**
+
+The front camera provides a global view of the workspace, while the wrist camera captures close-up observations from the robot end-effector.
 
 ---
 
-#### Episode Structure
+### Episode Statistics
 
-The dataset consists of **61 episodes** with near-uniform duration.
+The dataset contains **60 demonstrations** with highly consistent durations.
 
-| Statistic          | Value         |
-| ------------------ | ------------- |
-| Shortest Episode   | 19.93 seconds |
-| Longest Episode    | 19.97 seconds |
-| Average Duration   | 19.94 seconds |
-| Median             | 19.93 seconds |
-| Standard Deviation | 0.02 seconds  |
+| Statistic          | Value   |
+| ------------------ | ------- |
+| Shortest Episode   | 19.80 s |
+| Longest Episode    | 19.83 s |
+| Average Duration   | 19.81 s |
+| Median Duration    | 19.80 s |
+| Standard Deviation | 0.01 s  |
 
-With an FPS of **30**, each episode has about **600 frames**.
+With a recording rate of **30 FPS**, each episode contains approximately **594 frames**, resulting in **35,661 frames** across the entire dataset.
 
----
-
-#### Additional Metadata
-
-In addition to the main data, each frame also has the following metadata:
-
-- timestamp
-- frame_index
-- episode_index
-- task_index
-- index
-
-This metadata is used for data synchronization during the training and evaluation processes.
+The low standard deviation indicates a highly consistent demonstration length, which is beneficial for sequence-based imitation learning methods such as ACT and BB-ACT.
 
 ---
 
-#### Dataset Storage Structure
+### Additional Metadata
 
-The dataset is stored using the **LeRobot Dataset v3** format.
+Besides images and robot states, each frame includes additional metadata for synchronization and indexing.
 
-```
+| Metadata      | Description                      |
+| ------------- | -------------------------------- |
+| timestamp     | Recording timestamp of the frame |
+| frame_index   | Frame number within an episode   |
+| episode_index | Episode identifier               |
+| task_index    | Task identifier                  |
+| index         | Global frame index               |
+
+---
+
+### Dataset Storage Structure
+
+The dataset follows the **LeRobot Dataset v3.0** storage format.
+
+Robot state and action data are stored as **Apache Parquet** files:
+
+```text
 data/
 └── chunk-xxx/
     └── file-xxx.parquet
 ```
 
-Videos are stored separately.
+Video observations are stored separately for each camera:
 
-```
+```text
 videos/
-├── front/
-│   └── chunk-xxx/file-xxx.mp4
-└── wrist/
-    └── chunk-xxx/file-xxx.mp4
+├── observation.images.front/
+│   └── chunk-xxx/
+│       └── file-xxx.mp4
+│
+└── observation.images.wrist/
+    └── chunk-xxx/
+        └── file-xxx.mp4
 ```
+
+Each chunk contains synchronized robot states, actions, and corresponding video files.
 
 ---
 
@@ -183,9 +214,9 @@ videos/
 
 **Output**
 
-| Feature | Type   | Shape  |
-| ------- | ------ | ------ |
-| action  | ACTION | (6,)   |
+| Feature | Type   | Shape |
+| ------- | ------ | ----- |
+| action  | ACTION | (6,)  |
 
 ---
 
@@ -198,20 +229,19 @@ videos/
 | Optimizer       | adamw |
 | Learning rate   | 1e-05 |
 | Seed            | 1000  |
-| LeRobot version | 0.5.2 |
+| LeRobot version | 0.6.1 |
 
 ---
 
-Here are the model training results:
+Here is the model training results:
 
 - https://huggingface.co/FawzQi/so101-BBact-policy
 
+Here is the model training metric result:
+
+- https://wandb.ai/ahamdfaiqfawwaz-institut-teknologi-sepuluh-nopember/lerobot-so101?nw=nwuserahamdfaiqfawwaz
+
 ---
-
-<!--
-## 4. Model Evaluation
-
-Fill with training evaluation results/metrics here -->
 
 ## 4. Inference Observation Results
 
@@ -221,6 +251,10 @@ The robot successfully picks up the red block and moves it to the brown rectangu
 ### Video Results
 
 Here is the video documentation of the inference tests:
+
+[![Demo Video](Video/thumbnail.png)](Video/InferenceVideo_BBACT.mp4)
+
+> **Note:** Click the image to play the video.
 
 **[Video Results on Google Drive](https://drive.google.com/drive/folders/1kwrHN5rREQnvqet9mAZuFPpuiiKF5_q-?usp=sharing)**
 
