@@ -35,7 +35,7 @@ Although the model can still select suboptimal actions, the actions predicted in
 The dataset used for the training process can be accessed via the following link:
 
 **Dataset Link:**
-https://huggingface.co/datasets/Kamna0321/so101_persepsi_robot
+https://huggingface.co/datasets/Kamna0321/so101_persepsi_robot_20260708_114140
 
 This dataset was recorded using the **LeRobot Dataset v3.0** framework and contains robot movement demonstrations for a single task (single-task imitation learning). The data consists of camera observations, robot states, and actions (joint commands) for each frame.
 
@@ -46,17 +46,17 @@ This dataset was recorded using the **LeRobot Dataset v3.0** framework and conta
 | Robot                    | SO-101 Follower    |
 | Dataset Version          | v3.0               |
 | Total Tasks              | 1                  |
-| Total Episodes           | 61                 |
-| Total Frames             | 36,498             |
+| Total Episodes           | 60                |
+| Total Frames             | 35,661             |
 | FPS                      | 30                 |
 | Total Recording Duration | ±20 minutes        |
-| Split                    | Train (61 Episodes)|
+| Split                    | Train (60 Episodes)|
 
 ---
 
 #### Data Structure
 
-The dataset has several main features used during training.
+We taken the dataset with separate area and for each episode putted in differend position try to fill each the area for each episode with combination of how the cube positioned(aligned or sideway) and the dataset has several main features used during training.
 
 #### 1. Action
 
@@ -194,7 +194,7 @@ videos/
 | Configuration   | Value |
 | --------------- | ----- |
 | Training steps  | 20000 |
-| Batch size      | 32    |
+| Batch size      | 16    |
 | Optimizer       | adamw |
 | Learning rate   | 1e-05 |
 | Seed            | 1000  |
@@ -204,7 +204,7 @@ videos/
 
 Here are the model training results:
 
-- https://huggingface.co/wild3005/rp_policy
+- https://huggingface.co/FawzQi/so101-BBact-policy
 
 ---
 
@@ -216,7 +216,7 @@ Fill with training evaluation results/metrics here -->
 ## 4. Inference Observation Results
 
 Here are the inference observation results on the SO101 robot:
-The robot successfully picks up the red block and moves it to the brown rectangular area, according to the previously trained movements. However, the robot needs a little help when picking up the block because the _servo gripper_ cannot close completely due to minor damage to the servo.
+The robot successfully picks up the red block and moves it to the brown rectangular area even in different positions of the block.
 
 ### Video Results
 
